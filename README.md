@@ -7,7 +7,10 @@ Project will implement a character driver module for Linux kernel, and a client 
 
 ## Client
 
-| Command | Description |
+Client is invoked : 
+` $ client <option> `
+
+| Options | Description |
 | ------- | ----------- |
 | `list` | Shows runnig stuff |
 | `fg <id>` | Blocking till `<id>` completes. Recovers exit status. | 
@@ -17,6 +20,19 @@ Project will implement a character driver module for Linux kernel, and a client 
 | `modinfo <name>` | Prints info (author, version, parameters, address) about kernel module `<name>` |
 
 ## Driver
+
+All driver requests are passed via `ioctl` function.
+
+```c
+void meminfo ()
+{
+  infos i;
+  if (ioctl(fd, MEMINFO, &i) == -1) {
+   perror("meminfo : IOCTL");
+  }
+  printf "Memory info" + i.stuff
+}
+```
 
 | Request code | Description | Invoked by |
 | ------------ | ----------- | ---------- |
