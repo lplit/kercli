@@ -3,7 +3,9 @@
 PNL-4I402 Project
 
 ## Description 
-Project will implement a character driver module for Linux kernel, to offer the following: 
+Project will implement a character driver module for Linux kernel, and a client bit allowing to interact with it. 
+
+## Client
 
 | Command | Description |
 | ------- | ----------- |
@@ -13,6 +15,17 @@ Project will implement a character driver module for Linux kernel, to offer the 
 | `wait <pid> [<pid> ...]` | Blocking till `<pid>` completes, recovers `pid` and exit status | 
 | `meminfo` | Prints info about memory, similar to `/proc/meminfo` using `si_meminfo` and `si_swapinfo` |
 | `modinfo <name>` | Prints info (author, version, parameters, address) about kernel module `<name>` |
+
+## Driver
+
+| Request code | Description | Invoked by |
+| ------------ | ----------- | ---------- |
+| `LSRCMS` | **L**i**S**t **R**unning **C**o**M**mand**S** | `list` |
+| `FG` | Awaits end of com`<id>` returning its return code. Blocking. | `fg <id>` |
+| `KILL` | Sends signal via `kill_pid` | `kill <signal> <pid> | 
+| `WAIT` | Wait for a process |  `wait <pid> [<pid> ...]` |
+| `MEMINFO` | Get memory info | `meminfo` |
+| `MODINFO` | Get module info | `modinfo <name>` |
 
 ## Implementation progress
  - [ ] `list` 
