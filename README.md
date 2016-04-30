@@ -38,7 +38,7 @@ void meminfo ()
 | ------------ | ----------- | ---------- |
 | `LSRCMS` | **L**i**S**t **R**unning **C**o**M**mand**S** | `list` |
 | `FG` | Awaits end of com`<id>` returning its return code. Blocking. | `fg <id>` |
-| `KILL` | Sends signal via `kill_pid` | `kill <signal> <pid> | 
+| `KILL` | Sends signal via `kill_pid` | `kill <signal> <pid>` | 
 | `WAIT` | Wait for a process |  `wait <pid> [<pid> ...]` |
 | `MEMINFO` | Get memory info | `meminfo` |
 | `MODINFO` | Get module info | `modinfo <name>` |
