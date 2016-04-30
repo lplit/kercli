@@ -66,6 +66,9 @@ Give examples
 ## Install
 ### Compiling 
 
+Simply run 
+ $ make 
+
 ### Patching kernel
 
 ### Inserting module 
