@@ -36,9 +36,8 @@ All driver requests are passed via `ioctl` function.
 void meminfo ()
 {
   infos i;
-  if (ioctl(fd, MEMINFO, &i) == -1) {
+  if (ioctl(fd, MEMINFO, &i) == -1)
    perror("meminfo : IOCTL");
-  }
   printf "Memory info" + i.stuff
 }
 ```
