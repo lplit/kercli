@@ -12,7 +12,7 @@ PNL-4I402 Project
 
 
 ## Description 
-Project will implement a character driver module for Linux kernel, and a client bit allowing to interact with it. 
+Project will implement a character driver module for Linux kernel, and a client allowing interaction
 
 ## Client
 
