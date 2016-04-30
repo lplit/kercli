@@ -1,7 +1,7 @@
 #ifndef KERCLI_H
 #define KERCLI_H
 
-#define 
+#define LOLO 1 
 
 struct mem_infos {
 	long long uptime;				/* Seconds since boot */

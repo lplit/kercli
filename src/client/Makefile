@@ -1,10 +1,11 @@
-CC = gcc 
+CC   =gcc
+BIN  =../../bin
+%:%.c
+	$(CC) -Wall -o $(BIN)/$@ $^ 
 
-% : %.c 
-	$(CC) $(CFLAGS) -o $@ $^
+all: cli
 
-all : cli 
+clean:
+	rm -f $(BIN)/*
 
-clean : 
-
-.PHONY : clean all 
+.PHONY: all clean cleanall
