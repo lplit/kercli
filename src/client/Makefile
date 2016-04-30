@@ -1,7 +1,8 @@
 CC   =gcc
+C_FLAGS=-I../../inc/ -Wall 
 BIN  =../../bin
 %:%.c
-	$(CC) -Wall -o $(BIN)/$@ $^ 
+	$(CC) $(C_FLAGS) -o $(BIN)/$@ $^ 
 
 all: cli
 

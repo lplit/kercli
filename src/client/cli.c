@@ -6,7 +6,7 @@
 #include <stdio.h>
 #include <fcntl.h>
 
-#include "../../inc/kercli.h"
+#include "kercli.h"
 
 
 #define PATH "/root/file"
