@@ -1,9 +1,16 @@
 #ifndef KERCLI_H
 #define KERCLI_H
 
-#define LOLO 1 
+// _IO[RW](int type, int number[, data_type])
+#define N 900
+#define LIST _IOW(N, 1, int)
+#define FG _IOW(N, 2, int)
+#define KILL _IOR(N, 3, int) 
+#define WAIT _IOR(N, 4, int)
+#define MEMINFO _IOW(N, 5, char *)
+#define MODINFO _IOW(N, 6, int)
 
-struct mem_infos {
+struct sys_infos {
 	long long uptime;				/* Seconds since boot */
 	unsigned long long loads[3];	/* 1, 5, and 15 minute load averages */
 	unsigned long long totalram;	/* Total usable main memory size */
