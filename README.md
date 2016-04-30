@@ -60,13 +60,13 @@ Simply run :
 
 ### Inserting module 
 
- `$ make install`
+ `$ insmod kercli.ko`
 
 ### Interacting
 
 ### Removing module 
 
- `$ make remove`
+ `$ rmmode kercli`
 
 
 ## License
