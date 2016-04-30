@@ -2,6 +2,15 @@
 
 PNL-4I402 Project
 
+## Implementation progress
+ - [ ] `list` 
+ - [ ] `fg <id >`
+ - [ ] `kill <signal> <pid>` 
+ - [ ] `wait <pid> [<pid> ...]`
+ - [ ] `meminfo`
+ - [ ] `modinfo <name>`
+
+
 ## Description 
 Project will implement a character driver module for Linux kernel, and a client bit allowing to interact with it. 
 
@@ -43,14 +52,6 @@ void meminfo ()
 | `MEMINFO` | Get memory info | `meminfo` |
 | `MODINFO` | Get module info | `modinfo <name>` |
 
-## Implementation progress
- - [ ] `list` 
- - [ ] `fg <id >`
- - [ ] `kill <signal> <pid>` 
- - [ ] `wait <pid> [<pid> ...]`
- - [ ] `meminfo`
- - [ ] `modinfo <name>`
-
 ## Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
@@ -64,6 +65,7 @@ Give examples
 ```
 
 ## Install
+### Compiling 
 
 ### Patching kernel
 
