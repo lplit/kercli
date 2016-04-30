@@ -43,7 +43,7 @@ void meminfo ()
 }
 ```
 
-| Request code | Description | Invoked by |
+| Request code | Description | Client calls by |
 | ------------ | ----------- | ---------- |
 | `LSRCMS` | **L**i**S**t **R**unning **C**o**M**mand**S** | `list` |
 | `FG` | Awaits end of com`<id>` returning its return code. Blocking. | `fg <id>` |
