@@ -66,17 +66,19 @@ Give examples
 ## Install
 ### Compiling 
 
-Simply run 
- $ make 
+Simply run : 
 
-### Patching kernel
+ `$ make`
 
 ### Inserting module 
+
+ `$ make install`
 
 ### Interacting
 
 ### Removing module 
 
+ `$ make remove`
 ## Built With
 
 * Dropwizard - Bla bla bla
