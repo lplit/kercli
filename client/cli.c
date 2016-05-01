@@ -12,6 +12,6 @@
 #define PATH "/root/file"
 
 int main(int argc, char ** argv) {
-	printf("Lolo is : %d", LOLO);
+	printf("Lolo is : bad");
 	return 0; 
 }

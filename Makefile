@@ -2,9 +2,9 @@
 
 
 all:
-	@make -C src/client/
-	@make -C src/module/
+	@make -C client/
+	@make -C module/
 
 clean:
-	make -C src/client/ clean
-	make -C src/module/ clean
+	make -C client/ clean
+	make -C module/ clean
