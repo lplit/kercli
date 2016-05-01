@@ -42,18 +42,15 @@ static void __exit end (void)
   pr_alert("kercil byebye!\n");
 }
 
+/* Copies sysinfo structure to userspace */
 static void send_mem_info(void *arg_p)
 {
   struct sysinfo values;
-  values = kmalloc(sizeof(struct sysinfo), GFP_KERNEL);
+  memset(&values, 0, sizeof(struct sysinfo));
   si_meminfo(&values);
   copy_to_user((void *)arg_p, &values, sizeof(struct mem_infos));
   pr_debug("Memory info sent\n");
 }
-
-
-
-
 
 /**
  * Request handler
@@ -86,7 +83,7 @@ long device_handler(struct file *f,
     break;
 
   case MEMINFO:
-
+    send_mem_info((void *) arg_p);
     break;
 
   case MODINFO:
