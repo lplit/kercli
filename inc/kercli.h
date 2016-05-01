@@ -10,8 +10,11 @@
 #define MEMINFO _IOW(N, 5, char *)
 #define MODINFO _IOW(N, 6, int)
 
+/* String size for lsmod */
+#define LS_SIZE 2048
+
 /* Copy of /sys/sysinfo.h structure */
-struct sys_infos {
+struct mem_infos {
 	long long uptime;				/* Seconds since boot */
 	unsigned long long loads[3];	/* 1, 5, and 15 minute load averages */
 	unsigned long long totalram;	/* Total usable main memory size */
