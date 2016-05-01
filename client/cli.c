@@ -3,6 +3,7 @@
 #include <sys/stat.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <string.h>
 #include <stdio.h>
 #include <fcntl.h>
 
@@ -24,7 +25,7 @@ void print_meminfo(struct mem_infos mi)
 
 /* Prints help */
 void print_help () {
-  printf("Usage : $ %s <argument>\n", argv[0]);
+  printf("Usage : $ cli <argument>\n");
   printf("Arguments:\n");
   printf("list - Shows runnig stuff\n");
   printf("fg <id> - Blocking till <id> completes. Recovers exit status.\n");
@@ -41,16 +42,28 @@ void print_help () {
 int main(int argc, char ** argv)
 {
   struct mem_infos mem_info;
+  struct pid_list plist;
   char mod_list[LS_SIZE]; /* `list` data */
-  int fd; 
+  int fd, // File descriptor 
+    ret,
+    *args, 
+    nb_args,
+    i;
   fd = open(PATH, O_WRONLY);
   if (fd < 0) {
     perror("file error");
     exit(-1);
   }
-
-  /* Arguments parsing */
-  if (strcmp("list", argv[1]) == 0) {
+  nb_args = argc-2;
+  args = (int *) malloc(sizeof(int) * nb_args);
+  if (nb_args > 0) {
+    for (i=2 ; i<argc ; i++) {
+      
+    }
+  }
+			   
+  /* Argument parsing */
+  if (strcmp("list", argv[1]) == 0) { // LIST
     if (ioctl(fd, LIST, mod_list) == -1)
       perror("ioctl - list");
     else {
@@ -58,29 +71,34 @@ int main(int argc, char ** argv)
       printf("%s", mod_list);
     }
     
-  } else if (strcmp("fg", argv[1]) == 0) {
+  } else if (strcmp("fg", argv[1]) == 0) { // FG
     // Do FG stuff here 
 
-  } else if (strcmp("kill", argv[1]) == 0) {
-    kill(args[0], args[1]);
+  } else if (strcmp("kill", argv[1]) == 0) { // KILL
+    struct killerstruct ks = {
+      .sid = atoi(argv[2]),
+      .pid = atoi(argv[3])
+    };
+    if (ioctl(fd, KILL, &ks)== -1)
+      perror("kill : ioctl");
 
-  } else if (strcmp("wait", argv[1]) == 0) {
+  } else if (strcmp("wait", argv[1]) == 0) { // WAIT
     plist.nb_element = nb_args;
     plist.array_pointer = args;
-    ret = ioctl(fd, WAIT_ONE, &plist);
+    ret = ioctl(fd, WAIT, &plist);
     if (ret < 0)
       perror("ioctl : wait");
     else
       printf("%d terminated!\n", plist.return_value);
 
-  } else if (strcmp("meminfo", argv[1]) == 0) {
+  } else if (strcmp("meminfo", argv[1]) == 0) { // MEMINFO
     if (ioctl(fd, MEMINFO, &mem_info) == -1)
       perror("meminfo : IOCTL");
     else
-      display_info(mem_info);
+      print_meminfo(mem_info);
 
 
-  } else if (strcmp("modinfo", argv[1]) == 0) {
+  } else if (strcmp("modinfo", argv[1]) == 0) { // MODINFO
     // Do MODINFO stuff here 
         
   } else if (strcmp("help", argv[1]) == 0) {
