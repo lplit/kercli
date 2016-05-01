@@ -8,7 +8,7 @@ PNL-4I402 Project
  - [ ] `kill <signal> <pid>` 
  - [ ] `wait <pid> [<pid> ...]`
  - [x] `meminfo`
- - [ ] `modinfo <name>`
+ - [x] `modinfo <name>`
 
 
 ## Description 
