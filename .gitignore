@@ -27,6 +27,7 @@
 *.i*86
 *.x86_64
 *.hex
+/bin/*
 
 # Debug files
 *.dSYM/
@@ -81,3 +82,7 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+modules.order
+*.cmd
+module/kercli.mod.c
+*.mod
