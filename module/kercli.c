@@ -19,8 +19,9 @@ MODULE_DESCRIPTION("UPMC-MSAR-PNL Kernel CLI");
 /* Driver major number */
 int d_maj;
 
-long device_handler(struct file *f, unsigned int req_num, 
-	unsigned long arg_p);
+long device_handler(struct file *f,
+		    unsigned int req_num, 
+		    unsigned long arg_p);
 
 static const struct file_operations f_ops = {
   .unlocked_ioctl = device_handler,
@@ -41,6 +42,19 @@ static void __exit end (void)
   pr_alert("kercil byebye!\n");
 }
 
+static void send_mem_info(void *arg_p)
+{
+  struct sysinfo values;
+  values = kmalloc(sizeof(struct sysinfo), GFP_KERNEL);
+  si_meminfo(&values);
+  copy_to_user((void *)arg_p, &values, sizeof(struct mem_infos));
+  pr_debug("Memory info sent\n");
+}
+
+
+
+
+
 /**
  * Request handler
  * goes like: 
@@ -48,8 +62,42 @@ static void __exit end (void)
  * ioctl(fd, MEMINFO, &m);
  * print_meminfo(m);
  */
-long device_handler(struct file *f, unsigned int req_num, unsigned long arg_p)
+long device_handler(struct file *f,
+		    unsigned int req_num,
+		    unsigned long arg_p)
 {
+
+
+  switch (req_num) {
+  case LIST:
+    
+    break;
+
+  case FG:
+    
+    break;
+
+  case KILL:
+
+    break;
+
+  case WAIT:
+
+    break;
+
+  case MEMINFO:
+
+    break;
+
+  case MODINFO:
+
+    break;
+
+  default:
+    pr_alert("Unknown request code : %d\n", req_num); 
+    return -1; 
+  }
+  
   return 0;
 }
 
