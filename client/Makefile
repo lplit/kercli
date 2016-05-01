@@ -1,6 +1,6 @@
-CC   =gcc
-C_FLAGS=-I../../inc/ -Wall 
-BIN  =../../bin
+CC      =gcc
+C_FLAGS =-Wall -I../inc
+BIN     =../bin
 %:%.c
 	$(CC) $(C_FLAGS) -o $(BIN)/$@ $^ 
 

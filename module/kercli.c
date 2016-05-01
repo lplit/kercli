@@ -9,7 +9,7 @@
 #include <linux/fs.h>
 #include <linux/mm.h>
 
-#include "kercli.h"
+#include "../inc/kercli.h"
 
 // Infos 
 MODULE_LICENSE("GPL");

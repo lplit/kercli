@@ -8,7 +8,6 @@
 
 #include "kercli.h"
 
-
 #define PATH "/root/file"
 
 int main(int argc, char ** argv) {

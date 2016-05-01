@@ -1,9 +1,9 @@
 .PHONY:all clean
-
+INC = /inc
 
 all:
-	@make -C client/
-	@make -C module/
+	@make -I$(INC) -C client/
+	@make -I$(INC) -C module/
 
 clean:
 	make -C client/ clean
