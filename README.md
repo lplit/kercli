@@ -3,11 +3,11 @@
 PNL-4I402 Project
 
 ## Implementation progress
- - [ ] `list` 
+ - [x] `list` 
  - [ ] `fg <id >`
  - [ ] `kill <signal> <pid>` 
  - [ ] `wait <pid> [<pid> ...]`
- - [ ] `meminfo`
+ - [x] `meminfo`
  - [ ] `modinfo <name>`
 
 
