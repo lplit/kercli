@@ -10,6 +10,7 @@
 #define MEMINFO _IOW(N, 5, char *)
 #define MODINFO _IOW(N, 6, int)
 
+/* Copy of /sys/sysinfo.h structure */
 struct sys_infos {
 	long long uptime;				/* Seconds since boot */
 	unsigned long long loads[3];	/* 1, 5, and 15 minute load averages */
@@ -25,6 +26,5 @@ struct sys_infos {
 	unsigned long long freehigh;	/* Available high memory size */
 	unsigned long mem_unit;	        /* Memory unit size in bytes */
 };
-
 
 #endif 
