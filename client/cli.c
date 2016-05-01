@@ -48,7 +48,8 @@ int main(int argc, char ** argv)
     ret,
     *args, 
     nb_args,
-    i;
+    i,
+    tmp;
   fd = open(PATH, O_WRONLY);
   if (fd < 0) {
     perror("file error");
@@ -58,7 +59,8 @@ int main(int argc, char ** argv)
   args = (int *) malloc(sizeof(int) * nb_args);
   if (nb_args > 0) {
     for (i=2 ; i<argc ; i++) {
-      
+      sscanf(argv[i], "%d", &tmp);
+      args[i-2]=tmp;
     }
   }
 			   
@@ -73,33 +75,34 @@ int main(int argc, char ** argv)
     
   } else if (strcmp("fg", argv[1]) == 0) { // FG
     // Do FG stuff here 
-
+    
   } else if (strcmp("kill", argv[1]) == 0) { // KILL
     struct killerstruct ks = {
       .sid = atoi(argv[2]),
       .pid = atoi(argv[3])
     };
     if (ioctl(fd, KILL, &ks)== -1)
-      perror("kill : ioctl");
-
+      perror("ioctl - kill");
+    
   } else if (strcmp("wait", argv[1]) == 0) { // WAIT
     plist.nb_element = nb_args;
     plist.array_pointer = args;
     ret = ioctl(fd, WAIT, &plist);
     if (ret < 0)
-      perror("ioctl : wait");
+      perror("ioctl - wait");
     else
       printf("%d terminated!\n", plist.return_value);
 
   } else if (strcmp("meminfo", argv[1]) == 0) { // MEMINFO
     if (ioctl(fd, MEMINFO, &mem_info) == -1)
-      perror("meminfo : IOCTL");
+      perror("ioctl - meminfo");
     else
       print_meminfo(mem_info);
 
 
   } else if (strcmp("modinfo", argv[1]) == 0) { // MODINFO
-    // Do MODINFO stuff here 
+    if (ioctl(fd, MODINFO, &mod_list) == -1)
+      perror("ioctl - modinfo");
         
   } else if (strcmp("help", argv[1]) == 0) {
     print_help();
