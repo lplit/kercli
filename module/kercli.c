@@ -26,6 +26,7 @@ static const struct file_operations f_ops = {
   .unlocked_ioctl = device_handler,
 };
 
+/* Init routine */
 static int __init init (void)
 {
   d_maj = register_chrdev(0, "kercli", &f_ops);
@@ -33,12 +34,20 @@ static int __init init (void)
   return 0; 
 }
 
+/* Unload routine */
 static void __exit end (void)
 {
   unregister_chrdev(d_maj, "krecli");
   pr_alert("kercil byebye!\n");
 }
 
+/**
+ * Request handler
+ * goes like: 
+ * struct mem_infos m; 
+ * ioctl(fd, MEMINFO, &m);
+ * print_meminfo(m);
+ */
 long device_handler(struct file *f, unsigned int req_num, unsigned long arg_p)
 {
   return 0;
