@@ -52,6 +52,39 @@ static void send_mem_info(void *arg_p)
   pr_debug("Memory info sent\n");
 }
 
+static void send_mods_list(void *arg_p)
+{
+  struct module *m; 
+  int buff_remaining, references;
+  char buffer[256], * ret;
+  
+  buff_remaining = LS_SIZE;
+  ret = kzalloc(LS_SIZE, GFP_KERNEL);
+  
+  /* Get the first one */
+  m=THIS_MODULE;
+  references=atomic_read(&(m->mkobj.kobj.kref.refcount));
+  buff_remaining -= scnprintf(buffer, 128, "%s %u %d\n",
+			      m->name, m->core_size, references);
+
+  /* Concat to the return */
+  strncat(ret, buffer, buff_remaining);
+
+  /* Iterate over rest */
+  list_for_each_entry(m, &(THIS_MODULE->list), list) {
+    references=atomic_read(&(m->mkobj.kobj.kref.refcount));
+    /* If running, concat */
+    if (m->state == 0) {
+      buff_remaining -= scnprintf(buffer, 128, "%s %u %d\n",
+				  m->name, m->core_size, references);
+      strncat(ret, buffer, buff_remaining);
+    }
+  }
+  copy_to_user((void *)arg_p, ret, LS_SIZE);
+  kfree(ret); 
+}
+
+
 /**
  * Request handler
  * goes like: 
@@ -67,7 +100,7 @@ long device_handler(struct file *f,
 
   switch (req_num) {
   case LIST:
-    
+    send_mods_list((void *) arg_p);
     break;
 
   case FG:
@@ -87,7 +120,7 @@ long device_handler(struct file *f,
     break;
 
   case MODINFO:
-
+    send_mods_list((void *) arg_p); 
     break;
 
   default:
