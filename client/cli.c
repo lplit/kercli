@@ -55,6 +55,8 @@ int main(int argc, char ** argv)
     perror("file error");
     exit(-1);
   }
+
+  /* Get arguments */
   nb_args = argc-2;
   args = (int *) malloc(sizeof(int) * nb_args);
   if (nb_args > 0) {
@@ -78,8 +80,8 @@ int main(int argc, char ** argv)
     
   } else if (strcmp("kill", argv[1]) == 0) { // KILL
     struct killerstruct ks = {
-      .sid = atoi(argv[2]),
-      .pid = atoi(argv[3])
+      .sid = args[0],
+      .pid = args[1]
     };
     if (ioctl(fd, KILL, &ks)== -1)
       perror("ioctl - kill");
