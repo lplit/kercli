@@ -8,7 +8,7 @@
 #define KILL _IOR(N, 3, int) 
 #define WAIT _IOR(N, 4, int)
 #define MEMINFO _IOW(N, 5, char *)
-#define MODINFO _IOW(N, 6, int)
+#define MODINFO _IOW(N, 6, char *)
 
 /* String size for lsmod */
 #define LS_SIZE 2048
