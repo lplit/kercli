@@ -52,6 +52,30 @@ static void send_mem_info(void *arg_p)
   pr_debug("Memory info sent\n");
 }
 
+/* Returns few infos about module */ 
+static void find_mod(void *arg_p)
+{
+  struct module *m; 
+  int buff_remaining, references;
+  char buffer[256], * ret;
+  
+  buff_remaining = LS_SIZE;
+  ret = kzalloc(LS_SIZE, GFP_KERNEL);
+  
+  /* built-in function */
+  m=find_module((char*) arg_p);
+
+  references=atomic_read(&(m->mkobj.kobj.kref.refcount));
+  buff_remaining -= scnprintf(buffer, 128, "%s %u %d\n",
+			      m->name, m->core_size, references);
+  
+  strncat(ret, buffer, buff_remaining);
+  copy_to_user((void *)arg_p, ret, LS_SIZE);
+  kfree(ret);
+  
+}
+
+/* Sends all the running mods infos to userspace */
 static void send_mods_list(void *arg_p)
 {
   struct module *m; 
@@ -120,7 +144,7 @@ long device_handler(struct file *f,
     break;
 
   case MODINFO:
-    send_mods_list((void *) arg_p); 
+    find_mod((void *) arg_p);
     break;
 
   default:
