@@ -1,6 +1,6 @@
 # kercli
 
-PNL-4I402 Project
+UPMC-Paris6 - M1 SAR - PNL-4I402 Project
 
 ## Implementation progress
  - [x] `list` 
