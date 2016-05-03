@@ -62,8 +62,6 @@ Simply run :
 
  `$ insmod kercli.ko`
 
-### Interacting
-
 ### Removing module 
 
  `$ rmmode kercli`
