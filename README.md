@@ -5,7 +5,7 @@ PNL-4I402 Project
 ## Implementation progress
  - [x] `list` 
  - [ ] `fg <id >`
- - [ ] `kill <signal> <pid>` 
+ - [x] `kill <signal> <pid>` 
  - [ ] `wait <pid> [<pid> ...]`
  - [x] `meminfo`
  - [x] `modinfo <name>`
