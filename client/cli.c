@@ -42,7 +42,7 @@ void print_help () {
 int main(int argc, char ** argv)
 {
   struct mem_infos mem_info;
-  struct pid_list plist;
+  struct pid_list pids;
   char mod_list[LS_SIZE]; /* `list` data */
   int fd, // File descriptor 
     ret,
@@ -87,13 +87,13 @@ int main(int argc, char ** argv)
       perror("ioctl - kill");
     
   } else if (strcmp("wait", argv[1]) == 0) { // WAIT
-    plist.nb_element = nb_args;
-    plist.array_pointer = args;
-    ret = ioctl(fd, WAIT, &plist);
+    pids.nb_element = nb_args;
+    pids.array_pointer = args;
+    ret = ioctl(fd, WAIT, &pids);
     if (ret < 0)
       perror("ioctl - wait");
     else
-      printf("%d terminated!\n", plist.return_value);
+      printf("%d terminated!\n", pids.return_value);
 
   } else if (strcmp("meminfo", argv[1]) == 0) { // MEMINFO
     if (ioctl(fd, MEMINFO, &mem_info) == -1)
@@ -106,9 +106,6 @@ int main(int argc, char ** argv)
     if (ioctl(fd, MODINFO, &mod_list) == -1)
       perror("ioctl - modinfo");
         
-  } else if (strcmp("help", argv[1]) == 0) {
-    print_help();
-
   } else {
     print_help(); 
   }
