@@ -1,11 +1,11 @@
 # kercli
 
-PNL-4I402 Project
+UPMC-Paris6 - M1 SAR - PNL-4I402 Project
 
 ## Implementation progress
  - [x] `list` 
  - [ ] `fg <id >`
- - [ ] `kill <signal> <pid>` 
+ - [x] `kill <signal> <pid>` 
  - [ ] `wait <pid> [<pid> ...]`
  - [x] `meminfo`
  - [x] `modinfo <name>`
@@ -61,8 +61,6 @@ Simply run :
 ### Inserting module 
 
  `$ insmod kercli.ko`
-
-### Interacting
 
 ### Removing module 
 
