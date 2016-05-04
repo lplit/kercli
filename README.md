@@ -53,8 +53,8 @@ void meminfo ()
 
 ## Install
 ### Compiling 
-
-Simply run : 
+Before compiling please do provide path to 4.2.3 kernel in `/module/Makefile` under `KERNELDIR`.
+Then, simply run : 
 
  `$ make`
 
