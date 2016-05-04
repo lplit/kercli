@@ -27,6 +27,19 @@ static const struct file_operations f_ops = {
   .unlocked_ioctl = device_handler,
 };
 
+struct wait_struct {
+  struct delayed_work w_delayed;
+  struct task_struct **w_pids;
+  int w_is_finished;
+  int w_size;
+};
+
+DECLARE_WAIT_QUEUE_HEAD(waiter);
+
+/**
+ * METHODS 
+ */
+
 /* Init routine */
 static int __init init (void)
 {
@@ -40,6 +53,108 @@ static void __exit end (void)
 {
   unregister_chrdev(d_maj, "krecli");
   pr_alert("kercil byebye!\n");
+}
+
+/* Used by wait */
+static void wait_checker(struct work_struct *w)
+{
+  struct delayed_work * w_del;
+  struct wait_struct * w_stru;
+  int i;
+
+  w_del = to_delayed_work(w);
+  w_stru = container_of(w_del, struct wait_struct, w_delayed);
+
+  wake_up_interruptible(&waiter);
+
+  for (i = 0; i < w_stru->w_size; i++) {
+    if (!pid_alive(w_stru->w_pids[i])) {
+      w_stru->w_is_finished = i;
+      wake_up_interruptible(&waiter);
+      return;
+    }
+  }
+
+  /* On relance la boucle */
+  queue_delayed_work(syndicate, &(wOs->w_dw), TICKS_DELAY);
+}
+}
+
+/* Blocks, wait for first process to finish */
+/**
+ * TODO: 
+ * [x] 1. Get array size 
+ * [x] 2. Get array 
+ * [x] 3. Init a delayed work queue 
+ * [x] 4. Check each PID (need a label for brute exit?)
+ * [x] 5. Start delayed work with recovered PIDs
+ * [ ] 6. Wait for event from worker
+ * [x] 7. Cleanup
+ */
+static long wait(void *arg)
+{
+  struct pid_list p_list;
+  struct pid *pid; 
+  struct wait_struct * wt_s;
+  int i, *array;
+
+  // 1
+  copy_from_user(&p_list, arg, sizeof(struct pid_list));
+  array = kmalloc_array(p_list.nb_element, sizeof(int), GFP_KERNEL);
+  if (array==NULL) {
+    pr_alert("wait - allocation");
+    return -1;
+  }
+
+  // 2
+  copy_from_user(array, p_list.array_pointer, sizeof(int) * p_list.nb_element);
+
+  // 3
+  wt_s=kmalloc(sizeof(struct wait_struct), GFP_KERNEL);
+  wt_s->w_pids=kmalloc(sizeof(struct task_struct *) * p_list.nb_element,
+		       GFP_KERNEL);
+  wt_s->w_is_finished=-1;
+  INIT_DELAYED_WORK(&(wt_s->w_delayed), wait_checker);
+
+  // 4
+  wt_s->w_size = p_list.nb_element;
+  for (i=0 ; i < p_list.nb_element ; i++) {
+    if ((p = find_get_pid(array[i]))==0) {
+      pr_err("wait - find_get_pid");
+      goto err; 
+    }
+    if ((wt_s->w_pids[i]=get_pid_task(p, PIDTYPE_PID))==0) {
+      pr_err("wait - get_pid_task");
+      goto err;
+    }
+    put_pid(p);
+  }
+
+  // 5
+  if (queue_delayed_work(syndicate, &(wt_s->w_delayed), 100) == 0) {
+    pr_alert("wait - queue\n");
+    goto err; 
+  }
+
+  // 6
+  wait_even_interruptible(waiter, wt_s->w_is_finished != -1);
+
+  // 7
+  for(i=0 ; i<p_list.nb_element ; i++) {
+    put_task_struct(wt_s->w_pids[i]);
+    p_list->return_value = array[wt_s->w_is_finished];
+    copy_to_user(arg, &p_list, sizeof(struct pid_list));
+  }
+  
+  kfree(array);
+  kfree(wt_s->w_pids);
+  kfree(wt_s);
+  return 0;
+ err:
+  kfree(array);
+  kfree(wt_s->w_pids);
+  kfree(wt_s);
+  return -1;
 }
 
 /* Copies sysinfo structure to userspace */
@@ -108,6 +223,18 @@ static void send_mods_list(void *arg_p)
   kfree(ret); 
 }
 
+/** Sends a signal to a pid
+ * from killerstruct structure */
+static void signal_send(void * arg_p)
+{
+  struct pid *pid; 
+  struct killerstruct ks;
+  copy_from_user(&ks, arg_p, sizeof(struct killerstruct));
+
+  if ((pid = find_get_pid(ks.pid)))
+    kill_pid(pid, ks.sid, 1);
+}
+
 
 /**
  * Request handler
@@ -128,15 +255,15 @@ long device_handler(struct file *f,
     break;
 
   case FG:
-    
+    pr_debug("FG is not implemented\n");
     break;
 
   case KILL:
-
+    signal_send((void *) arg_p); 
     break;
 
   case WAIT:
-
+    
     break;
 
   case MEMINFO:
