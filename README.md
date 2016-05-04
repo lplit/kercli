@@ -6,7 +6,7 @@ UPMC-Paris6 - M1 SAR - PNL-4I402 Project
  - [x] `list` 
  - [ ] `fg <id >`
  - [x] `kill <signal> <pid>` 
- - [ ] `wait <pid> [<pid> ...]`
+ - [x] `wait <pid> [<pid> ...]`
  - [x] `meminfo`
  - [x] `modinfo <name>`
 
